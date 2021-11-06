@@ -20,6 +20,6 @@ Universidad Nacional del Comahue
 
  - ** Dinamarca, Mirko ** - Legajo FAI 2413 - email: dinamarcamirko.19@gmail.com
 
- - **  ** - Legajo FAI  - email: 
+ - ** Claure, Alejandro Santos ** - Legajo FAI-2833  - email: alejandro.claure@est.fi.uncoma.edu.ar  
 
- - **  ** - Legajo FAI  - email: 
+ - ** Luna, Laureano Iván ** - Legajo FAI-3543  - email: laureano.luna@fi.uncoma.edu.ar 
