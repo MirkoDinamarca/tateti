@@ -218,25 +218,26 @@ function primerJuegoGanado($coleccion, $nomb)
 del jugador utilizando la estructura b) de la sección EXPLICACACIÓN 2.*/
 function resumenJugador($arrayColeccionJuegos, $nombreJugador)
 {
-
     $juegosGanados = 0;
     $juegosPerdidos = 0;
     $juegosEmpatados = 0;
     $puntosTotales = 0;
     $i = 0;
+
     $cuenta = count($arrayColeccionJuegos);
     $indiceganador = primerJuegoGanado($arrayColeccionJuegos, $nombreJugador);
+
     if ($indiceganador > -1) {
         $jugadorX = $arrayColeccionJuegos[$indiceganador]["jugadorCruz"];
         $jugadorO = $arrayColeccionJuegos[$indiceganador]["jugadorCirculo"];
-        $puntosX = $arrayColeccionJuegos[$indiceganador]["puntosCruz"];
-        $puntosO = $arrayColeccionJuegos[$indiceganador]["puntosCirculo"];
+        
 
         if ($nombreJugador == $jugadorX) {
 
             for ($i = 0; $i < $cuenta; $i++) {
-                //while($i< $cuenta){
-                //if ($nombreJugador == $jugadorX && $puntosX > $puntosO ) {
+                $puntosX = $arrayColeccionJuegos[$i]["puntosCruz"];
+                $puntosO = $arrayColeccionJuegos[$i]["puntosCirculo"];
+
                 if ($arrayColeccionJuegos[$i]["jugadorCruz"] == $jugadorX && $puntosX > $puntosO) {
                     $juegosGanados++;
                     $puntosTotales = $puntosTotales + $puntosX;
@@ -245,12 +246,13 @@ function resumenJugador($arrayColeccionJuegos, $nombreJugador)
                 } elseif ($arrayColeccionJuegos[$i]["jugadorCruz"] == $jugadorX && $puntosX == $puntosO) {
                     $juegosEmpatados++;
                     $puntosTotales = $puntosTotales + $puntosX;
-                    // }
-
                 }
             }
         } elseif ($nombreJugador == $jugadorO) {
             for ($i = 0; $i <= $cuenta; $i++) {
+                $puntosX = $arrayColeccionJuegos[$i]["puntosCruz"];
+                $puntosO = $arrayColeccionJuegos[$i]["puntosCirculo"];
+
                 if ($arrayColeccionJuegos[$i]["jugadorCruz"] == $jugadorX && $puntosX < $puntosO) {
                     $juegosGanados++;
                     $puntosTotales = $puntosTotales + $puntosX;
@@ -263,6 +265,7 @@ function resumenJugador($arrayColeccionJuegos, $nombreJugador)
             }
         }
     }
+
     $resumen = [
         "nombreJugador" => $nombreJugador,
         "juegosGanados" => $juegosGanados,
@@ -272,8 +275,6 @@ function resumenJugador($arrayColeccionJuegos, $nombreJugador)
     ];
     return $resumen;
 }
-
-
 
 /**
  * Explicación 3 - Inciso(8)
@@ -320,7 +321,6 @@ function juegosGanados($juegos)
     }
     return $ganados;
 }
-
 
 /**
  * Explicación 3 - Inciso(10)
