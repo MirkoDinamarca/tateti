@@ -78,7 +78,7 @@ function seleccionarOpcion()
     echo "5) Mostrar resumen del Jugador\n";
     echo "6) Mostrar listado de juegos ordenador por Jugador O\n";
     echo "7) Salir\n";
-    $opcionUsuario = numeroValidado(); 
+    $opcionUsuario = numeroValidado();
     return $opcionUsuario;
 }
 
@@ -88,10 +88,11 @@ function seleccionarOpcion()
  * @return $numeroValido
  */
 
-function numeroValidado() {
+function numeroValidado()
+{
     // int $numeroValido
     echo "Ingrese una opción: ";
-    $numeroValido = solicitarNumeroEntre(1, 7); 
+    $numeroValido = solicitarNumeroEntre(1, 7);
     return $numeroValido;
 }
 
@@ -225,7 +226,7 @@ function resumenJugador($arrayColeccionJuegos, $nombreJugador)
     if ($indiceGanador > -1) {
         $jugadorX = $arrayColeccionJuegos[$indiceGanador]["jugadorCruz"];
         $jugadorO = $arrayColeccionJuegos[$indiceGanador]["jugadorCirculo"];
-        
+
         if ($nombreJugador == $jugadorX) {
 
             for ($i = 0; $i < $cuenta; $i++) {
@@ -341,22 +342,28 @@ function ganadosPorSimbolo($arrayTateti, $simbolo)
     return $ganadas;
 }
 
-/*11. Implementar una función sin retorno que, dada una colección de juegos, muestre la colección de juegos
-ordenado por el nombre del jugador cuyo símbolo es O.*/
+/*11. */
+/**
+ * Explicación 3 - Inciso(11)
+ * Implementar una función sin retorno que, dada una colección de juegos, muestre la colección de juegos
+ *ordenado por el nombre del jugador cuyo símbolo es O
+ * @param array $coleccionJuegos
+ */
 function coleccionJuegosO($coleccionJuegos)
 {
-    $cantidad = count($coleccionJuegos);
-    for ($i=0; $i < $cantidad; $i++) { 
+    uasort($coleccionJuegos, 'sorteo');
+    print_r($coleccionJuegos);
+}
+/**
+ * Explicación módulo sorteo
+ * se hace un módulo para comprar los strings de la funcion anterior para poder ordenar el array colecionJuegosO
+ * @param array $a, $b
+ * @return array
+ */
 
-
-        if ($coleccionJuegos[$i]["jugadorCirculo"]) {
-            $coleccionJugadorO[$i["jugadorCirculo"]] = [
-                $coleccionJuegos[$i]["jugadorCirculo"],
-                $coleccionJuegos[$i]["puntosCirculo"],
-            ];
-        }
-    }
-    print_r($coleccionJugadorO);
+function sorteo($a, $b)
+{
+    return strcmp($a["jugadorCirculo"], $b["jugadorCirculo"]);
 }
 
 /**************************************/
@@ -439,30 +446,12 @@ do {
                 $juegosGanadosPorO = ganadosPorSimbolo($juegosCargados, $simboloO);
                 $porcentajeX = ($juegosGanadosPorX * 100) / $ganados;
                 echo "El porcentaje de los juegos ganados por X es: " . $porcentajeX . "%";
-
-                /*
-                echo "Los juegos totales son: " . $nroJuegos . "\n";
-                echo "Los juegos ganados son: ". $ganados . "\n";
-                echo "Los juegos empatados son: ". $empatados . "\n";
-                echo "Los juegos ganados por X: " . $juegosGanadosPorX . "\n";
-                echo "Los juegos ganados por O: " . $juegosGanadosPorO . "\n";
-                */
-
             } else {
                 $juegosGanadosPorO = ganadosPorSimbolo($juegosCargados, $simbolo);
                 $simboloX = "X";
                 $juegosGanadosPorX = ganadosPorSimbolo($juegosCargados, $simboloX);
                 $porcentajeO = ($juegosGanadosPorO * 100) / $ganados;
                 echo "El porcentaje de los juegos ganados por O es: " . $porcentajeO . "%";
-
-                /*
-                echo "Los juegos totales son: " . $nroJuegos . "\n";
-                echo "Los juegos ganados son: ". $ganados . "\n";
-                echo "Los juegos empatados son: ". $empatados . "\n";
-                echo "Los juegos ganados por O: " . $juegosGanadosPorO . "\n";
-                echo "Los juegos ganados por X: " . $juegosGanadosPorX . "\n";
-                */
-                
             }
             break;
         case 5:
@@ -490,5 +479,4 @@ do {
             $opcion = 8;
             break;
     }
-
 } while ($opciones != 7);
