@@ -44,12 +44,12 @@ include_once("tateti.php");
 
 function cargarJuegos()
 {
-    $coleccionJuegos[0] = ["jugadorCruz" => "mirko", "jugadorCirculo" => "sergio", "puntosCruz" => 3, "puntosCirculo" => 0];
-    $coleccionJuegos[1] = ["jugadorCruz" => "mirko", "jugadorCirculo" => "sergio", "puntosCruz" => 0, "puntosCirculo" => 4];
-    $coleccionJuegos[2] = ["jugadorCruz" => "mauricio", "jugadorCirculo" => "laura", "puntosCruz" =>  5, "puntosCirculo" => 0];
-    $coleccionJuegos[3] = ["jugadorCruz" => "mauricio", "jugadorCirculo" => "laura", "puntosCruz" =>  1, "puntosCirculo" => 1];
-    $coleccionJuegos[4] = ["jugadorCruz" => "clara", "jugadorCirculo" => "sofia", "puntosCruz" =>  3, "puntosCirculo" => 0];
-    $coleccionJuegos[5] = ["jugadorCruz" => "mirko", "jugadorCirculo" => "sergio", "puntosCruz" =>  5, "puntosCirculo" => 0];
+    $coleccionJuegos[0] = ["jugadorCruz" => "MIRKO", "jugadorCirculo" => "sergio", "puntosCruz" => 3, "puntosCirculo" => 0];
+    $coleccionJuegos[1] = ["jugadorCruz" => "MIRKO", "jugadorCirculo" => "sergio", "puntosCruz" => 0, "puntosCirculo" => 4];
+    $coleccionJuegos[2] = ["jugadorCruz" => "MAURICIO", "jugadorCirculo" => "laura", "puntosCruz" =>  5, "puntosCirculo" => 0];
+    $coleccionJuegos[3] = ["jugadorCruz" => "MAURICIO", "jugadorCirculo" => "laura", "puntosCruz" =>  1, "puntosCirculo" => 1];
+    $coleccionJuegos[4] = ["jugadorCruz" => "CLARA", "jugadorCirculo" => "sofia", "puntosCruz" =>  3, "puntosCirculo" => 0];
+    $coleccionJuegos[5] = ["jugadorCruz" => "MIRKO", "jugadorCirculo" => "sergio", "puntosCruz" =>  5, "puntosCirculo" => 0];
     $coleccionJuegos[6] = ["jugadorCruz" => "sebastian", "jugadorCirculo" => "carlos", "puntosCruz" =>  1, "puntosCirculo" => 1];
     $coleccionJuegos[7] = ["jugadorCruz" => "debora", "jugadorCirculo" => "gustavo", "puntosCruz" =>  0, "puntosCirculo" => 4];
     $coleccionJuegos[8] = ["jugadorCruz" => "agustin", "jugadorCirculo" => "damian", "puntosCruz" =>  1, "puntosCirculo" => 1];
@@ -85,7 +85,7 @@ function seleccionarOpcion()
 /**
  * Explicacion 3 - Consigna(3)
  * Solicita al usuario un número entre el rango de valores 1 y 7
- * @return $numeroValido
+ * @return int
  */
 
 function numeroValidado()
@@ -248,12 +248,12 @@ function resumenJugador($arrayColeccionJuegos, $nombreJugador)
                 $puntosX = $arrayColeccionJuegos[$i]["puntosCruz"];
                 $puntosO = $arrayColeccionJuegos[$i]["puntosCirculo"];
 
-                if ($arrayColeccionJuegos[$i]["jugadorCruz"] == $jugadorX && $puntosX < $puntosO) {
+                if ($arrayColeccionJuegos[$i]["jugadorCirculo"] == $jugadorO && $puntosX < $puntosO) {
                     $juegosGanados++;
                     $puntosTotales = $puntosTotales + $puntosX;
-                } elseif ($arrayColeccionJuegos[$i]["jugadorCruz"] == $jugadorX && $puntosX > $puntosO) {
+                } elseif ($arrayColeccionJuegos[$i]["jugadorCirculo"] == $jugadorO && $puntosX > $puntosO) {
                     $juegosPerdidos++;
-                } elseif ($arrayColeccionJuegos[$i]["jugadorCruz"] == $jugadorX && $puntosX == $puntosO) {
+                } elseif ($arrayColeccionJuegos[$i]["jugadorCirculo"] == $jugadorO && $puntosX == $puntosO) {
                     $juegosEmpatados++;
                     $puntosTotales = $puntosTotales + $puntosX;
                 }
@@ -273,16 +273,16 @@ function resumenJugador($arrayColeccionJuegos, $nombreJugador)
 
 /**
  * Explicación 3 - Inciso(8)
- * Le solicita al usuario un símnolo X u O, y retorna el símbolo
+ * Le solicita al usuario un símbolo X u O, y retorna el símbolo
  * elegido, la función tiene que validar el dato ingresado por el usuario.
  * @return string
  */
 
-function simboloXoY()
+function simboloXuO()
 {
     // string $simbolo, $aux
     do {
-        echo "Elija el símbolo a jugar (X  / O): ";
+        echo "Elija el símbolo a jugar (X  / O):";
         $simbolo = strtoupper(trim(fgets(STDIN)));
         $aux = "";
 
@@ -321,11 +321,11 @@ function juegosGanados($juegos)
  * Explicación 3 - Inciso(10)
  * Dado una colección de juegos más el símbolo, retorne la cantidad de juegos ganado por ese símbolo
  * @param array $arrayTateti
- * @param string $simbolo
+ * @param string $simboloElegido
  * @return int 
  */
 
-function ganadosPorSimbolo($arrayTateti, $simbolo)
+function ganadosPorSimbolo($arrayTateti, $simboloElegido)
 {
     // int $cant, $ganadas, $i, 
     $cant = count($arrayTateti);
@@ -333,9 +333,9 @@ function ganadosPorSimbolo($arrayTateti, $simbolo)
 
     for ($i = 0; $i < $cant; $i++) {
 
-        if ($simbolo == "X" && $arrayTateti[$i]["puntosCruz"] > $arrayTateti[$i]["puntosCirculo"]) {
+        if ($simboloElegido == "X" && $arrayTateti[$i]["puntosCruz"] > $arrayTateti[$i]["puntosCirculo"]) {
             $ganadas++;
-        } else if ($simbolo == "O" && $arrayTateti[$i]["puntosCirculo"] > $arrayTateti[$i]["puntosCruz"]) {
+        } else if ($simboloElegido == "O" && $arrayTateti[$i]["puntosCirculo"] > $arrayTateti[$i]["puntosCruz"]) {
             $ganadas++;
         }
     }
@@ -354,6 +354,10 @@ function coleccionJuegosO($coleccionJuegos)
     uasort($coleccionJuegos, 'sorteo');
     print_r($coleccionJuegos);
 }
+
+/**La función uasort se utiliza para Ordenar un array con una función de comparación definida por el usuario y mantiene la asociación de índices.
+/**La función print_r Imprime información legible sobre una variable*/
+
 /**
  * Explicación módulo sorteo
  * se hace un módulo para comprar los strings de la funcion anterior para poder ordenar el array colecionJuegosO
@@ -373,7 +377,7 @@ function sorteo($a, $b)
 //Declaración de variables:
 // int $opciones, $nroJuegos, $numJuego, $juego, $puntosX, $puntosO, $ganados, $empatados, $juegosGanadosPorX, $juegosGanadosPorO
 // array $juegosCargados, $tateti, $resumenJugador, $juegosAlmacenadosO
-// string $mostrandoJuego, $respuestaUsuario, $nombreJugador, $ganadorX, $ganadorO, $simbolo, $simboloX, $simboloO, $jugador
+// string $mostrandoJuego, $respuestaUsuario, $nombreJugador, $ganadorX, $ganadorO, $simbolo, $jugador
 // float $porcentajeX, $porcentajeO
 
 //Inicialización de variables:
@@ -435,21 +439,17 @@ do {
             break;
         case 4:
             // Muestra el porcentaje de juegos ganados según el símbolo elegido
-            $simbolo = simboloXoY();
+            $simbolo = simboloXuO();
 
             $ganados = juegosGanados($juegosCargados);
             $empatados = $nroJuegos - $ganados;
 
             if ($simbolo == "X") {
                 $juegosGanadosPorX = ganadosPorSimbolo($juegosCargados, $simbolo);
-                $simboloO = "O";
-                $juegosGanadosPorO = ganadosPorSimbolo($juegosCargados, $simboloO);
                 $porcentajeX = ($juegosGanadosPorX * 100) / $ganados;
                 echo "El porcentaje de los juegos ganados por X es: " . $porcentajeX . "%";
             } else {
                 $juegosGanadosPorO = ganadosPorSimbolo($juegosCargados, $simbolo);
-                $simboloX = "X";
-                $juegosGanadosPorX = ganadosPorSimbolo($juegosCargados, $simboloX);
                 $porcentajeO = ($juegosGanadosPorO * 100) / $ganados;
                 echo "El porcentaje de los juegos ganados por O es: " . $porcentajeO . "%";
             }
