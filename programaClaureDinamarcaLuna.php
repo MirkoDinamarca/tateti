@@ -44,16 +44,16 @@ include_once("tateti.php");
 
 function cargarJuegos()
 {
-    $coleccionJuegos[0] = ["jugadorCruz" => "MIRKO", "jugadorCirculo" => "sergio", "puntosCruz" => 3, "puntosCirculo" => 0];
-    $coleccionJuegos[1] = ["jugadorCruz" => "MIRKO", "jugadorCirculo" => "sergio", "puntosCruz" => 0, "puntosCirculo" => 4];
-    $coleccionJuegos[2] = ["jugadorCruz" => "MAURICIO", "jugadorCirculo" => "laura", "puntosCruz" =>  5, "puntosCirculo" => 0];
-    $coleccionJuegos[3] = ["jugadorCruz" => "MAURICIO", "jugadorCirculo" => "laura", "puntosCruz" =>  1, "puntosCirculo" => 1];
-    $coleccionJuegos[4] = ["jugadorCruz" => "CLARA", "jugadorCirculo" => "sofia", "puntosCruz" =>  3, "puntosCirculo" => 0];
-    $coleccionJuegos[5] = ["jugadorCruz" => "MIRKO", "jugadorCirculo" => "sergio", "puntosCruz" =>  5, "puntosCirculo" => 0];
-    $coleccionJuegos[6] = ["jugadorCruz" => "sebastian", "jugadorCirculo" => "carlos", "puntosCruz" =>  1, "puntosCirculo" => 1];
-    $coleccionJuegos[7] = ["jugadorCruz" => "debora", "jugadorCirculo" => "gustavo", "puntosCruz" =>  0, "puntosCirculo" => 4];
-    $coleccionJuegos[8] = ["jugadorCruz" => "agustin", "jugadorCirculo" => "damian", "puntosCruz" =>  1, "puntosCirculo" => 1];
-    $coleccionJuegos[9] = ["jugadorCruz" => "agustin", "jugadorCirculo" => "damian", "puntosCruz" =>  0, "puntosCirculo" => 5];
+    $coleccionJuegos[0] = ["jugadorCruz" => "MIRKO", "jugadorCirculo" => "SERGIO", "puntosCruz" => 3, "puntosCirculo" => 0];
+    $coleccionJuegos[1] = ["jugadorCruz" => "MIRKO", "jugadorCirculo" => "SERGIO", "puntosCruz" => 1, "puntosCirculo" => 1];
+    $coleccionJuegos[2] = ["jugadorCruz" => "ALE", "jugadorCirculo" => "LAUREANO", "puntosCruz" =>  5, "puntosCirculo" => 0];
+    $coleccionJuegos[3] = ["jugadorCruz" => "ALE", "jugadorCirculo" => "LAUREANO", "puntosCruz" =>  1, "puntosCirculo" => 1];
+    $coleccionJuegos[4] = ["jugadorCruz" => "CLARA", "jugadorCirculo" => "SOFIA", "puntosCruz" =>  3, "puntosCirculo" => 0];
+    $coleccionJuegos[5] = ["jugadorCruz" => "MIRKO", "jugadorCirculo" => "SERGIO", "puntosCruz" =>  5, "puntosCirculo" => 0];
+    $coleccionJuegos[6] = ["jugadorCruz" => "SEBASTIAN", "jugadorCirculo" => "CARLOS", "puntosCruz" =>  1, "puntosCirculo" => 1];
+    $coleccionJuegos[7] = ["jugadorCruz" => "DEBORA", "jugadorCirculo" => "GUSTAVO", "puntosCruz" =>  0, "puntosCirculo" => 4];
+    $coleccionJuegos[8] = ["jugadorCruz" => "AGUSTIN", "jugadorCirculo" => "DAMIAN", "puntosCruz" =>  1, "puntosCirculo" => 1];
+    $coleccionJuegos[9] = ["jugadorCruz" => "AGUSTIN", "jugadorCirculo" => "DAMIAN", "puntosCruz" =>  0, "puntosCirculo" => 5];
 
     return $coleccionJuegos;
 }
@@ -223,44 +223,99 @@ function resumenJugador($arrayColeccionJuegos, $nombreJugador)
     $cuenta = count($arrayColeccionJuegos);
     $indiceGanador = primerJuegoGanado($arrayColeccionJuegos, $nombreJugador);
 
-    if ($indiceGanador > -1) {
-        $jugadorX = $arrayColeccionJuegos[$indiceGanador]["jugadorCruz"];
-        $jugadorO = $arrayColeccionJuegos[$indiceGanador]["jugadorCirculo"];
+    // Si el $nombreJugador coincide con algún nombre dentro del arreglo, entonces almacena dicho jugador.
+    for ($i=0; $i < $cuenta; $i++) { 
+        if ($nombreJugador == $arrayColeccionJuegos[$i]["jugadorCruz"]) {
+            $jugadorX = $nombreJugador;
+        } else if ($nombreJugador == $arrayColeccionJuegos[$i]["jugadorCirculo"]) {
+            $jugadorO = $nombreJugador;
+        }
+    }
 
+    // Si el indice es mayor a -1, significa que el jugador ganó al menos una partida
+    if ($indiceGanador > -1) {
+        // Se verifica si es jugadorX
         if ($nombreJugador == $jugadorX) {
 
             for ($i = 0; $i < $cuenta; $i++) {
+                // Almacenamos los puntos, ya sea de X, u O
                 $puntosX = $arrayColeccionJuegos[$i]["puntosCruz"];
                 $puntosO = $arrayColeccionJuegos[$i]["puntosCirculo"];
 
+                // Si el jugador de la colección de juegos coincide con $jugadorX y sus puntos son mayor que jugadorCirculo
                 if ($arrayColeccionJuegos[$i]["jugadorCruz"] == $jugadorX && $puntosX > $puntosO) {
                     $juegosGanados++;
                     $puntosTotales = $puntosTotales + $puntosX;
+                // Si sus puntos son menores..
                 } elseif ($arrayColeccionJuegos[$i]["jugadorCruz"] == $jugadorX && $puntosX < $puntosO) {
                     $juegosPerdidos++;
+                // Si sus puntos son iguales..
                 } elseif ($arrayColeccionJuegos[$i]["jugadorCruz"] == $jugadorX && $puntosX == $puntosO) {
                     $juegosEmpatados++;
                     $puntosTotales = $puntosTotales + $puntosX;
                 }
             }
+        // Se verifica si es jugadorO
         } elseif ($nombreJugador == $jugadorO) {
-            for ($i = 0; $i <= $cuenta; $i++) {
+            for ($i = 0; $i < $cuenta; $i++) {
+                // Almacenamos los puntos, ya sea de X, u O
                 $puntosX = $arrayColeccionJuegos[$i]["puntosCruz"];
                 $puntosO = $arrayColeccionJuegos[$i]["puntosCirculo"];
 
+                // Si el jugador de la colección de juegos coincide con $jugadorO y sus puntos son mayor que jugadorCruz
                 if ($arrayColeccionJuegos[$i]["jugadorCirculo"] == $jugadorO && $puntosX < $puntosO) {
                     $juegosGanados++;
-                    $puntosTotales = $puntosTotales + $puntosX;
+                    $puntosTotales = $puntosTotales + $puntosO;
+                // Si sus puntos son menores..
                 } elseif ($arrayColeccionJuegos[$i]["jugadorCirculo"] == $jugadorO && $puntosX > $puntosO) {
                     $juegosPerdidos++;
-                } elseif ($arrayColeccionJuegos[$i]["jugadorCirculo"] == $jugadorO && $puntosX == $puntosO) {
+                // Si sus puntos son iguales..
+                } elseif ($arrayColeccionJuegos[$i]["jugadorCirculo"] == $jugadorO && $puntosO == $puntosX) {
+                    $juegosEmpatados++;
+                    $puntosTotales = $puntosTotales + $puntosO;
+                }
+            }
+        }
+
+    // Si solamente perdió y/o empató entonces..
+    } else if ($indiceGanador == -1) {
+
+        // Se verifica si es jugadorX
+        if ($nombreJugador == $jugadorX) {
+            for ($i=0; $i < $cuenta; $i++) { 
+                $puntosX = $arrayColeccionJuegos[$i]["puntosCruz"];
+                $puntosO = $arrayColeccionJuegos[$i]["puntosCirculo"];
+    
+                // Si el jugador de la colección de juegos coincide con $nombreJugador y sus puntos son menores que jugadorCirculo
+                if ($arrayColeccionJuegos[$i]["jugadorCruz"] == $nombreJugador && $puntosX < $puntosO) {
+                    $juegosPerdidos++;
+                // Si sus puntos son iguales..
+                } elseif ($arrayColeccionJuegos[$i]["jugadorCruz"] == $nombreJugador && $puntosX == $puntosO) {
                     $juegosEmpatados++;
                     $puntosTotales = $puntosTotales + $puntosX;
+                }
+            }
+
+        // Se verifica si es jugadorO
+        } else if ($nombreJugador == $jugadorO) {
+            
+            for ($i=0; $i < $cuenta; $i++) { 
+                $puntosX = $arrayColeccionJuegos[$i]["puntosCruz"];
+                $puntosO = $arrayColeccionJuegos[$i]["puntosCirculo"];
+
+                // Si el jugador de la colección de juegos coincide con $nombreJugador y sus puntos son menores que jugadorCruz
+                if ($arrayColeccionJuegos[$i]["jugadorCirculo"] == $jugadorO && $puntosX > $puntosO) {
+                    $juegosPerdidos++;
+                // Si sus puntos son iguales..
+                } elseif ($arrayColeccionJuegos[$i]["jugadorCirculo"] == $jugadorO && $puntosX == $puntosO) {
+                    $juegosEmpatados++;
+                    $puntosTotales = $puntosTotales + $puntosO;
                 }
             }
         }
     }
 
+    // Se almacenan todos los datos dentro del arreglo asociativo $resumen
     $resumen = [
         "nombreJugador" => $nombreJugador,
         "juegosGanados" => $juegosGanados,
@@ -393,7 +448,7 @@ do {
      * en cada caso según el valor ingresado por el usuario */
     switch ($opciones) {
         case 1:
-            // Comienza el juego del Tateti
+            // Comienza el juego del Tateti y se almacena cada juego nuevo en la colección ya iniciada.
             $tateti = jugar();
             print_r($tateti);
             imprimirResultado($tateti);
@@ -412,7 +467,7 @@ do {
         case 3:
             // Se le solicita al usuario el nombre del jugador y muestra por pantalla el número con la primer victoria de el/ella
             echo "Ingrese el nombre del jugador para mostrar sus datos: ";
-            $nombreJugador = trim(fgets(STDIN));
+            $nombreJugador = strtoupper(trim(fgets(STDIN)));
             $juego = primerJuegoGanado($juegosCargados, $nombreJugador);
             if ($juego == -1) {
                 echo $nombreJugador . " no ganó ningún juego.";
@@ -456,17 +511,22 @@ do {
             break;
         case 5:
             // Muestra el resumen de un jugador ingresado por el usuario
-            echo "Ingrese un nombre de jugador: \n";
-            $jugador = trim(fgets(STDIN));
+            echo "Ingrese un nombre de jugador: ";
+            $jugador = strtoupper(trim(fgets(STDIN)));
             $resumenJugador = resumenJugador($juegosCargados, $jugador);
 
-            echo "****************************************************************************\n";
-            echo "Jugador: " . $resumenJugador["nombreJugador"] . "\n";
-            echo "Ganó: " . $resumenJugador["juegosGanados"] . " juegos\n";
-            echo "Perdió: " . $resumenJugador["juegosPerdidos"] . " juegos\n";
-            echo "Empató: " . $resumenJugador["juegosEmpatados"] . " juegos\n";
-            echo "Total de puntos acumulados: " . $resumenJugador["puntosTotales"] . " puntos\n";
-            echo "****************************************************************************\n";
+            if ($jugador === $resumenJugador["nombreJugador"]) {
+                echo "****************************************************************************\n";
+                echo "Jugador: " . $resumenJugador["nombreJugador"] . "\n";
+                echo "Ganó: " . $resumenJugador["juegosGanados"] . " juegos\n";
+                echo "Perdió: " . $resumenJugador["juegosPerdidos"] . " juegos\n";
+                echo "Empató: " . $resumenJugador["juegosEmpatados"] . " juegos\n";
+                echo "Total de puntos acumulados: " . $resumenJugador["puntosTotales"] . " puntos\n";
+                echo "****************************************************************************\n";
+            } else {
+                echo "Ingrese nuevamente";
+            }
+            
 
             break;
         case 6:
