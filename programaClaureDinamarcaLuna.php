@@ -35,6 +35,7 @@ include_once("tateti.php");
 /**************************************/
 /***** DEFINICION DE FUNCIONES ********/
 /**************************************/
+
 /**
  * funciones predefinidas utilizadas:
  * strtoupper(): Convierte el string ingresado a mayúscula
@@ -42,6 +43,7 @@ include_once("tateti.php");
  * strcmp(): Hace una comparación entre dos strings
  * print_r(): Imprime información legible sobre una variable
  */
+
 /**
  * Explicación 3 - Consigna (1)
  * Inicializa una estructura de datos que almacena 10 ejemplos de juegos, retorna la colección de juegos
@@ -213,7 +215,8 @@ function resumenJugador($coleccion, $nombreJugador)
     /*
     int $juegosGanados, $juegosPerdidos, $juegosEmpatados, $puntosTotales, $i
         $cant, $puntosO, $puntosX
-    string $jugadorX, $jugadorO
+    boolean $bool
+    string $jugador
     array $resumen
     */
 
@@ -222,23 +225,26 @@ function resumenJugador($coleccion, $nombreJugador)
     $juegosPerdidos = 0;
     $juegosEmpatados = 0;
     $puntosTotales = 0;
-    $jugadorX = "";
-    $jugadorO = "";
+    $bool = true;
+    $jugador = "";
     $i = 0;
     $cant = count($coleccion);
 
     /* Inicio de Algoritmo */
     
     // Si el $nombreJugador coincide con algún nombre dentro del arreglo, entonces almacena dicho jugador.
-    for ($i = 0; $i < $cant; $i++) {
-        if ($nombreJugador == $coleccion[$i]["jugadorCruz"]) {
-            $jugadorX = $nombreJugador;
-        } else if ($nombreJugador == $coleccion[$i]["jugadorCirculo"]) {
-            $jugadorO = $nombreJugador;
+    while ($bool && $i < $cant) {
+        if ($nombreJugador == $coleccion[$i]["jugadorCruz"] || $nombreJugador == $coleccion[$i]["jugadorCirculo"]) {
+            $jugador = $nombreJugador;
+            $bool = false;
+        } else {
+            $jugador = "inexistente";
         }
+        $i++;
     }
-    // Se verifica si es jugadorX
-    if ($nombreJugador == $jugadorX) {
+
+    // Se verifica si es $jugador válido
+    if ($nombreJugador == $jugador) {
 
         for ($i = 0; $i < $cant; $i++) {
             // Almacenamos los puntos, ya sea de X, u O
@@ -246,51 +252,35 @@ function resumenJugador($coleccion, $nombreJugador)
             $puntosO = $coleccion[$i]["puntosCirculo"];
 
             // Si el jugador de la colección de juegos coincide con $jugadorX
-            if ($coleccion[$i]["jugadorCruz"] == $jugadorX) {
-                //si sus puntos son mayor que jugadorCirculo
+            if ($coleccion[$i]["jugadorCruz"] == $jugador) {
+                // Si sus puntos son mayor que jugadorCirculo
                 if ($puntosX > $puntosO) {
                     $juegosGanados++;
                     $puntosTotales = $puntosTotales + $puntosX;
-                    // Si sus puntos son menores..
-                } elseif ($puntosX < $puntosO) {
+                // Si sus puntos son menores..
+                } else if ($puntosX < $puntosO) {
                     $juegosPerdidos++;
-                    // Si sus puntos son iguales..
-                } elseif ($puntosX == $puntosO) {
+                // Si sus puntos son iguales..
+                } else if ($puntosX == $puntosO) {
                     $juegosEmpatados++;
                     $puntosTotales = $puntosTotales + $puntosX;
                 }
-            }
-            $resumen = [
-                "nombreJugador" => $nombreJugador,
-                "juegosGanados" => $juegosGanados,
-                "juegosPerdidos" => $juegosPerdidos,
-                "juegosEmpatados" => $juegosEmpatados,
-                "puntosTotales" => $puntosTotales
-            ];
-        }
-        // Se verifica si es jugadorO
-    } elseif ($nombreJugador == $jugadorO) {
-        for ($i = 0; $i < $cant; $i++) {
-            // Almacenamos los puntos, ya sea de X, u O
-            $puntosX = $coleccion[$i]["puntosCruz"];
-            $puntosO = $coleccion[$i]["puntosCirculo"];
-
-            // Si el jugador de la colección de juegos coincide con $jugadorO
-            if ($coleccion[$i]["jugadorCirculo"] == $jugadorO) {
-                //si sus puntos son mayor que jugadorCruz
-                if ($puntosX < $puntosO) {
+            // Se verifica si es jugadorO   
+            } else if ($coleccion[$i]["jugadorCirculo"] == $jugador) {
+                if ($puntosO > $puntosX) {
                     $juegosGanados++;
                     $puntosTotales = $puntosTotales + $puntosO;
-                    // Si sus puntos son menores..
-                } elseif ($puntosX > $puntosO) {
+                // Si sus puntos son menores..
+                } else if ($puntosO < $puntosX) {
                     $juegosPerdidos++;
-                    // Si sus puntos son iguales..
-                } elseif ($puntosO == $puntosX) {
+                // Si sus puntos son iguales..
+                } else if ($puntosX == $puntosO) {
                     $juegosEmpatados++;
                     $puntosTotales = $puntosTotales + $puntosO;
                 }
             }
         }
+
         $resumen = [
             "nombreJugador" => $nombreJugador,
             "juegosGanados" => $juegosGanados,
@@ -298,14 +288,13 @@ function resumenJugador($coleccion, $nombreJugador)
             "juegosEmpatados" => $juegosEmpatados,
             "puntosTotales" => $puntosTotales
         ];
+
     } else {
         $resumen = ["nombreJugador" => "inexistente"];
     }
 
     return $resumen;
 }
-
-
 
 /**
  * Explicación 3 - Inciso(8)
@@ -380,7 +369,7 @@ function ganadosPorSimbolo($coleccion, $simboloElegido)
     return $ganadas;
 }
 
-/*11. */
+
 /**
  * Explicación 3 - Inciso(11)
  * Implementar una función sin retorno que, dada una colección de juegos, muestre la colección de juegos
@@ -509,7 +498,7 @@ do {
                     echo "****************************************************************************\n";
                     $respuesta = "NO";
                 } else {
-                    echo "El jugador ingresado no existe. ¿Desea intentar nuevamente? (SI/NO): ";
+                    echo "El jugador ingresado no existe." . "\n" .  "¿Desea intentar nuevamente? (SI/NO): ";
                     $respuesta = strtoupper(trim(fgets(STDIN)));
                 }
             } while ($respuesta == "SI");
