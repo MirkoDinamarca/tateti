@@ -22,4 +22,4 @@ Universidad Nacional del Comahue
 
  - ** Claure, Alejandro Santos ** - Legajo FAI-2833  - email: alejandro.claure@est.fi.uncoma.edu.ar  
 
- - ** Luna, Laureano Iván ** - Legajo FAI-3543  - email: laureano.luna@fi.uncoma.edu.ar 
+ - ** Luna, Laureano Iván ** - Legajo FAI-3543  - email: laureano.luna@est.fi.uncoma.edu.ar 

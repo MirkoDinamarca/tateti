@@ -28,14 +28,13 @@ include_once("tateti.php");
  * NOMBRE:Laureano Iván
  * LEGAJO: FAI-3543
  * CARRERA:TUDW 
- * CORREO: laureano.luna@fi.uncoma.edu.ar 
+ * CORREO: laureano.luna@est.fi.uncoma.edu.ar 
  * GITHUB:LaureanoLuna
  */
 
 /**************************************/
 /***** DEFINICION DE FUNCIONES ********/
 /**************************************/
-
 /**
  * funciones predefinidas utilizadas:
  * strtoupper(): Convierte el string ingresado a mayúscula
@@ -43,7 +42,6 @@ include_once("tateti.php");
  * strcmp(): Hace una comparación entre dos strings
  * print_r(): Imprime información legible sobre una variable
  */
-
 /**
  * Explicación 3 - Consigna (1)
  * Inicializa una estructura de datos que almacena 10 ejemplos de juegos, retorna la colección de juegos
@@ -115,45 +113,35 @@ function numeroValidado()
 
 function mostrarJuego($coleccion, $nro)
 {
-    // int $i, $cant
-    // boolean $bool
+    // int $cant
 
     /* Inicialización de Variables */
     $cant = count($coleccion);
 
-    for ($i = 0; $i < $cant; $i++) {
-        if ($i == $nro) {
-            // Si es un empate..
-            if ($coleccion[$i]["puntosCruz"] == $coleccion[$i]["puntosCirculo"]) {
-                echo "*********************************\n";
-                echo "Juego TATETI: " . $i . " (empate)\n";
-                echo "Jugador X: " . $coleccion[$i]["jugadorCruz"] . " obtuvo " . $coleccion[$i]["puntosCruz"] . " puntos\n";
-                echo "Jugador O: " . $coleccion[$i]["jugadorCirculo"] . " obtuvo " . $coleccion[$i]["puntosCirculo"] . " puntos\n";
-                echo "*********************************\n";
-            } else if ($coleccion[$i]["puntosCruz"] > $coleccion[$i]["puntosCirculo"]) { // Si el jugador X gana el juego, entonces..
-                echo "*********************************\n";
-                echo "Juego TATETI: " . $i . " (ganó X)\n";
-                echo "Jugador X: " . $coleccion[$i]["jugadorCruz"] . " obtuvo " . $coleccion[$i]["puntosCruz"] . " puntos\n";
-                echo "Jugador O: " . $coleccion[$i]["jugadorCirculo"] . " obtuvo " . $coleccion[$i]["puntosCirculo"] . " puntos\n";
-                echo "*********************************\n";
-            } else if ($coleccion[$i]["puntosCruz"] < $coleccion[$i]["puntosCirculo"]) { // Si el jugador O gana el juego, entonces..
-                echo "*********************************\n";
-                echo "Juego TATETI: " . $i . " (ganó O)\n";
-                echo "Jugador X: " . $coleccion[$i]["jugadorCruz"] . " obtuvo " . $coleccion[$i]["puntosCruz"] . " puntos\n";
-                echo "Jugador O: " . $coleccion[$i]["jugadorCirculo"] . " obtuvo " . $coleccion[$i]["puntosCirculo"] . " puntos\n";
-                echo "*********************************\n";
-            }
-            $bool = false;
-            // La variable $i toma el valor de $cant para poder finalizar el bucle. De lo contrario, el módulo iteraría hasta finalizar el bucle o
-            // hasta que $bool sea true.
-            $i = $cant; 
-        } else {
-            $bool = true;
+    //se condiciona a que nro se contenga dentro de la cantidad existente de la coleccion
+    if ($nro < $cant && $nro > -1) {
+        // Si es un empate..
+        if ($coleccion[$nro]["puntosCruz"] == $coleccion[$nro]["puntosCirculo"]) {
+            echo "*********************************\n";
+            echo "Juego TATETI: " . $nro . " (empate)\n";
+            echo "Jugador X: " . $coleccion[$nro]["jugadorCruz"] . " obtuvo " . $coleccion[$nro]["puntosCruz"] . " puntos\n";
+            echo "Jugador O: " . $coleccion[$nro]["jugadorCirculo"] . " obtuvo " . $coleccion[$nro]["puntosCirculo"] . " puntos\n";
+            echo "*********************************\n";
+        } else if ($coleccion[$nro]["puntosCruz"] > $coleccion[$nro]["puntosCirculo"]) { // Si el jugador X gana el juego, entonces..
+            echo "*********************************\n";
+            echo "Juego TATETI: " . $nro . " (ganó X)\n";
+            echo "Jugador X: " . $coleccion[$nro]["jugadorCruz"] . " obtuvo " . $coleccion[$nro]["puntosCruz"] . " puntos\n";
+            echo "Jugador O: " . $coleccion[$nro]["jugadorCirculo"] . " obtuvo " . $coleccion[$nro]["puntosCirculo"] . " puntos\n";
+            echo "*********************************\n";
+        } else if ($coleccion[$nro]["puntosCruz"] < $coleccion[$nro]["puntosCirculo"]) { // Si el jugador O gana el juego, entonces..
+            echo "*********************************\n";
+            echo "Juego TATETI: " . $nro . " (ganó O)\n";
+            echo "Jugador X: " . $coleccion[$nro]["jugadorCruz"] . " obtuvo " . $coleccion[$nro]["puntosCruz"] . " puntos\n";
+            echo "Jugador O: " . $coleccion[$nro]["jugadorCirculo"] . " obtuvo " . $coleccion[$nro]["puntosCirculo"] . " puntos\n";
+            echo "*********************************\n";
         }
-    }
-
-    if ($bool) {
-        echo "El Juego ingresado no existe, vuelva a ingresar el número\n";
+    } else {
+        echo "El Juego ingresado no existe.\n";
     }
 }
 
@@ -167,15 +155,12 @@ function mostrarJuego($coleccion, $nro)
 
 function agregarJuego($coleccion, $juegoNuevo)
 {
-    // int $cant, $i, 
+    // int $cant
     // array $coleccion
 
     /* Inicialización de Variables */
     $cant = count($coleccion);
-
-    for ($i = $cant; $i <= $cant; $i++) {
-        $coleccion[$i] = $juegoNuevo;
-    }
+    $coleccion[$cant] = $juegoNuevo;
 
     return $coleccion;
 }
@@ -194,21 +179,19 @@ function primerJuegoGanado($coleccion, $nomb)
 {
     // int $cant, $i, $respuesta
     // boolean $gano
-
-    /* Inicialización de Variables */
     $cant = count($coleccion);
     $gano = true;
     $i = 0;
 
     while ($gano && $i < $cant) {
         if ($coleccion[$i]["jugadorCruz"] == $nomb && $coleccion[$i]["puntosCruz"] > $coleccion[$i]["puntosCirculo"]) {
-            $gano = false;
 
             $respuesta = $i;
+            $gano = false;
         } else if ($coleccion[$i]["jugadorCirculo"] == $nomb && $coleccion[$i]["puntosCirculo"] > $coleccion[$i]["puntosCruz"]) {
-            $gano = false;
-
+          
             $respuesta = $i;
+            $gano = false;
         } else {
             $respuesta = -1;
         }
@@ -242,9 +225,10 @@ function resumenJugador($coleccion, $nombreJugador)
     $jugadorX = "";
     $jugadorO = "";
     $i = 0;
+    $cant = count($coleccion);
 
     /* Inicio de Algoritmo */
-    $cant = count($coleccion);
+    
     // Si el $nombreJugador coincide con algún nombre dentro del arreglo, entonces almacena dicho jugador.
     for ($i = 0; $i < $cant; $i++) {
         if ($nombreJugador == $coleccion[$i]["jugadorCruz"]) {
@@ -261,17 +245,20 @@ function resumenJugador($coleccion, $nombreJugador)
             $puntosX = $coleccion[$i]["puntosCruz"];
             $puntosO = $coleccion[$i]["puntosCirculo"];
 
-            // Si el jugador de la colección de juegos coincide con $jugadorX y sus puntos son mayor que jugadorCirculo
-            if ($coleccion[$i]["jugadorCruz"] == $jugadorX && $puntosX > $puntosO) {
-                $juegosGanados++;
-                $puntosTotales = $puntosTotales + $puntosX;
-                // Si sus puntos son menores..
-            } elseif ($coleccion[$i]["jugadorCruz"] == $jugadorX && $puntosX < $puntosO) {
-                $juegosPerdidos++;
-                // Si sus puntos son iguales..
-            } elseif ($coleccion[$i]["jugadorCruz"] == $jugadorX && $puntosX == $puntosO) {
-                $juegosEmpatados++;
-                $puntosTotales = $puntosTotales + $puntosX;
+            // Si el jugador de la colección de juegos coincide con $jugadorX
+            if ($coleccion[$i]["jugadorCruz"] == $jugadorX) {
+                //si sus puntos son mayor que jugadorCirculo
+                if ($puntosX > $puntosO) {
+                    $juegosGanados++;
+                    $puntosTotales = $puntosTotales + $puntosX;
+                    // Si sus puntos son menores..
+                } elseif ($puntosX < $puntosO) {
+                    $juegosPerdidos++;
+                    // Si sus puntos son iguales..
+                } elseif ($puntosX == $puntosO) {
+                    $juegosEmpatados++;
+                    $puntosTotales = $puntosTotales + $puntosX;
+                }
             }
             $resumen = [
                 "nombreJugador" => $nombreJugador,
@@ -288,17 +275,20 @@ function resumenJugador($coleccion, $nombreJugador)
             $puntosX = $coleccion[$i]["puntosCruz"];
             $puntosO = $coleccion[$i]["puntosCirculo"];
 
-            // Si el jugador de la colección de juegos coincide con $jugadorO y sus puntos son mayor que jugadorCruz
-            if ($coleccion[$i]["jugadorCirculo"] == $jugadorO && $puntosX < $puntosO) {
-                $juegosGanados++;
-                $puntosTotales = $puntosTotales + $puntosO;
-                // Si sus puntos son menores..
-            } elseif ($coleccion[$i]["jugadorCirculo"] == $jugadorO && $puntosX > $puntosO) {
-                $juegosPerdidos++;
-                // Si sus puntos son iguales..
-            } elseif ($coleccion[$i]["jugadorCirculo"] == $jugadorO && $puntosO == $puntosX) {
-                $juegosEmpatados++;
-                $puntosTotales = $puntosTotales + $puntosO;
+            // Si el jugador de la colección de juegos coincide con $jugadorO
+            if ($coleccion[$i]["jugadorCirculo"] == $jugadorO) {
+                //si sus puntos son mayor que jugadorCruz
+                if ($puntosX < $puntosO) {
+                    $juegosGanados++;
+                    $puntosTotales = $puntosTotales + $puntosO;
+                    // Si sus puntos son menores..
+                } elseif ($puntosX > $puntosO) {
+                    $juegosPerdidos++;
+                    // Si sus puntos son iguales..
+                } elseif ($puntosO == $puntosX) {
+                    $juegosEmpatados++;
+                    $puntosTotales = $puntosTotales + $puntosO;
+                }
             }
         }
         $resumen = [
@@ -311,7 +301,6 @@ function resumenJugador($coleccion, $nombreJugador)
     } else {
         $resumen = ["nombreJugador" => "inexistente"];
     }
-    // Se almacenan todos los datos dentro del arreglo asociativo $resumen
 
     return $resumen;
 }
@@ -346,20 +335,18 @@ function simboloXuO()
  * Explicación 3 - Inciso(9)
  * De una colección de juegos, retorna la cantidad de juegos ganados
  * sin contar los empates, tampoco importa si es X u O.
- * @param array $coleccion
+ * @param array $juegos
  * @return int
  */
 
-function juegosGanados($coleccion)
+function juegosGanados($juegos)
 {
     // int $cant, $ganados, $i 
-
-    /* Inicialización de Variables */
-    $cant = count($coleccion);
+    $cant = count($juegos);
     $ganados = 0;
 
     for ($i = 0; $i < $cant; $i++) {
-        if ($coleccion[$i]["puntosCruz"] > 1 || $coleccion[$i]["puntosCirculo"] > 1) {
+        if ($juegos[$i]["puntosCruz"] > 1 || $juegos[$i]["puntosCirculo"] > 1) {
             $ganados++;
         }
     }
@@ -377,7 +364,7 @@ function juegosGanados($coleccion)
 function ganadosPorSimbolo($coleccion, $simboloElegido)
 {
     // int $cant, $ganadas, $i, 
-    
+
     /* Inicialización de Variables */
     $ganadas = 0;
     $cant = count($coleccion);
@@ -393,26 +380,28 @@ function ganadosPorSimbolo($coleccion, $simboloElegido)
     return $ganadas;
 }
 
+/*11. */
 /**
  * Explicación 3 - Inciso(11)
  * Implementar una función sin retorno que, dada una colección de juegos, muestre la colección de juegos
  *ordenado por el nombre del jugador cuyo símbolo es O
- * @param array $coleccion
+ * @param array $coleccionJuegos
  */
-function coleccionJuegosO($coleccion)
+function coleccionJuegosO($coleccionJuegos)
 {
-    uasort($coleccion, 'orden');
-    print_r($coleccion);
+    uasort($coleccionJuegos, 'sorteo');
+    print_r($coleccionJuegos);
 }
 
+
 /**
- * Explicación módulo orden
- * se hace un módulo para comparar los strings de la funcion anterior para poder ordenar el array colecionJuegosO
+ * Explicación módulo sorteo
+ * se hace un módulo para comprar los strings de la funcion anterior para poder ordenar el array colecionJuegosO
  * @param array $a, $b
  * @return array
  */
 
-function orden($a, $b)
+function sorteo($a, $b)
 {
    return strcmp($a["jugadorCirculo"], $b["jugadorCirculo"]);
 }
@@ -423,7 +412,7 @@ function orden($a, $b)
 
 // Muestra un Menú de opciones que nos permite realizar distintas funciones, entre ellas, jugar al ta-te-ti
 
-/** Declaración de variables: **/ 
+/** Declaración de variables: **/
 
 // int $opciones, $nroJuegos, $numJuego, $indiceJuego, $puntosX, $puntosO, $ganados, $empatados, $juegosGanadosPorX, $juegosGanadosPorO
 // array $juegosCargados, $tateti, $resumenJugador
