@@ -149,7 +149,7 @@ function mostrarJuego($coleccion, $nro)
 
 /**
  * Explicación 3 - Inciso(5)
- * Teniendo ya una colección de juegos, y ya haber jugado uno, la función debe mostrar
+ * Teniendo ya una colección de juegos, y ya haber jugado uno, la función debe retornar
  * la colección modificada con el juego ya agregado.
  * @param array $coleccion, $juegoNuevo
  * @return array
@@ -290,7 +290,7 @@ function resumenJugador($coleccion, $nombreJugador)
         ];
 
     } else {
-        $resumen = ["nombreJugador" => "inexistente"];
+        $resumen = ["nombreJugador" => $jugador];
     }
 
     return $resumen;
@@ -384,8 +384,8 @@ function coleccionJuegosO($coleccionJuegos)
 
 
 /**
- * Explicación módulo sorteo
- * se hace un módulo para comprar los strings de la funcion anterior para poder ordenar el array colecionJuegosO
+ * Explicación módulo sorteo: 
+ * se hace un módulo para comparar los strings de la funcion anterior para poder ordenar el array colecionJuegosO
  * @param array $a, $b
  * @return array
  */
