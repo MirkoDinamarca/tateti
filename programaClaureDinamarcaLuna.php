@@ -62,7 +62,6 @@ function cargarJuegos()
     $coleccionJuegos[7] = ["jugadorCruz" => "DEBORA", "jugadorCirculo" => "GUSTAVO", "puntosCruz" =>  0, "puntosCirculo" => 4];
     $coleccionJuegos[8] = ["jugadorCruz" => "AGUSTIN", "jugadorCirculo" => "DAMIAN", "puntosCruz" =>  1, "puntosCirculo" => 1];
     $coleccionJuegos[9] = ["jugadorCruz" => "AGUSTIN", "jugadorCirculo" => "DAMIAN", "puntosCruz" =>  0, "puntosCirculo" => 5];
-
     return $coleccionJuegos;
 }
 
@@ -191,7 +190,7 @@ function primerJuegoGanado($coleccion, $nomb)
             $respuesta = $i;
             $gano = false;
         } else if ($coleccion[$i]["jugadorCirculo"] == $nomb && $coleccion[$i]["puntosCirculo"] > $coleccion[$i]["puntosCruz"]) {
-          
+
             $respuesta = $i;
             $gano = false;
         } else {
@@ -225,62 +224,46 @@ function resumenJugador($coleccion, $nombreJugador)
     $juegosPerdidos = 0;
     $juegosEmpatados = 0;
     $puntosTotales = 0;
-    $bool = true;
-    $jugador = "";
     $i = 0;
     $cant = count($coleccion);
 
     /* Inicio de Algoritmo */
-    
     // Si el $nombreJugador coincide con algún nombre dentro del arreglo, entonces almacena dicho jugador.
-    while ($bool && $i < $cant) {
-        if ($nombreJugador == $coleccion[$i]["jugadorCruz"] || $nombreJugador == $coleccion[$i]["jugadorCirculo"]) {
-            $jugador = $nombreJugador;
-            $bool = false;
-        } else {
-            $jugador = "inexistente";
-        }
-        $i++;
-    }
-
-    // Se verifica si es $jugador válido
-    if ($nombreJugador == $jugador) {
-
+    if(verificacion($coleccion, $nombreJugador)){
         for ($i = 0; $i < $cant; $i++) {
             // Almacenamos los puntos, ya sea de X, u O
             $puntosX = $coleccion[$i]["puntosCruz"];
             $puntosO = $coleccion[$i]["puntosCirculo"];
 
             // Si el jugador de la colección de juegos coincide con $jugadorX
-            if ($coleccion[$i]["jugadorCruz"] == $jugador) {
+            if ($coleccion[$i]["jugadorCruz"] == $nombreJugador) {
                 // Si sus puntos son mayor que jugadorCirculo
                 if ($puntosX > $puntosO) {
                     $juegosGanados++;
                     $puntosTotales = $puntosTotales + $puntosX;
-                // Si sus puntos son menores..
+                    // Si sus puntos son menores..
                 } else if ($puntosX < $puntosO) {
                     $juegosPerdidos++;
-                // Si sus puntos son iguales..
+                    // Si sus puntos son iguales..
                 } else if ($puntosX == $puntosO) {
                     $juegosEmpatados++;
                     $puntosTotales = $puntosTotales + $puntosX;
                 }
-            // Se verifica si es jugadorO   
-            } else if ($coleccion[$i]["jugadorCirculo"] == $jugador) {
+                // Se verifica si es jugadorO   
+            } else if ($coleccion[$i]["jugadorCirculo"] == $nombreJugador) {
                 if ($puntosO > $puntosX) {
                     $juegosGanados++;
                     $puntosTotales = $puntosTotales + $puntosO;
-                // Si sus puntos son menores..
+                    // Si sus puntos son menores..
                 } else if ($puntosO < $puntosX) {
                     $juegosPerdidos++;
-                // Si sus puntos son iguales..
+                    // Si sus puntos son iguales..
                 } else if ($puntosX == $puntosO) {
                     $juegosEmpatados++;
                     $puntosTotales = $puntosTotales + $puntosO;
                 }
             }
         }
-
         $resumen = [
             "nombreJugador" => $nombreJugador,
             "juegosGanados" => $juegosGanados,
@@ -288,11 +271,10 @@ function resumenJugador($coleccion, $nombreJugador)
             "juegosEmpatados" => $juegosEmpatados,
             "puntosTotales" => $puntosTotales
         ];
-
-    } else {
-        $resumen = ["nombreJugador" => $jugador];
+    }else {
+        $nombreJugador = "inexistente";
+        $resumen = ["nombreJugador" => $nombreJugador];
     }
-
     return $resumen;
 }
 
@@ -392,7 +374,32 @@ function coleccionJuegosO($coleccionJuegos)
 
 function sorteo($a, $b)
 {
-   return strcmp($a["jugadorCirculo"], $b["jugadorCirculo"]);
+    return strcmp($a["jugadorCirculo"], $b["jugadorCirculo"]);
+}
+
+/**
+ * verificar jugador: verifica si un jugador existe o no, retornando un valor booleano
+ * @param string $nombreJugador
+ * @param array $coleccion
+ * @return boolean
+ */
+
+//Declaración de variables:
+//boolean verifica
+
+function verificacion($coleccion, $nombreJugador){
+    $i=0;
+    $cant= count($coleccion);
+    $verifica = false;
+    while (!$verifica && $i < $cant) {
+        if ($nombreJugador == $coleccion[$i]["jugadorCruz"] || $nombreJugador == $coleccion[$i]["jugadorCirculo"]) {
+            $verifica = true;
+        }else{
+            $verifica=false;
+        }
+        $i++;
+    }
+    return $verifica;
 }
 
 /**************************************/
@@ -441,28 +448,7 @@ do {
             echo "Ingrese el nombre del jugador para mostrar sus datos: ";
             $nombreJugador = strtoupper(trim(fgets(STDIN)));
             $indiceJuego = primerJuegoGanado($juegosCargados, $nombreJugador);
-            if ($indiceJuego == -1) {
-                echo $nombreJugador . " no ganó ningún juego.";
-            } else {
-                $ganadorX = $juegosCargados[$indiceJuego]["jugadorCruz"];
-                $puntosX = $juegosCargados[$indiceJuego]["puntosCruz"];
-
-                $ganadorO = $juegosCargados[$indiceJuego]["jugadorCirculo"];
-                $puntosO = $juegosCargados[$indiceJuego]["puntosCirculo"];
-                if ($puntosX > $puntosO) {
-                    echo "****************************************************************************\n";
-                    echo "Juego TATETI: " . $indiceJuego . " (ganó X)\n";
-                    echo "Jugador X: " . strtoupper($ganadorX) . " obtuvo " . $puntosX . " puntos\n";
-                    echo "Jugador O: " . strtoupper($ganadorO) . " obtuvo " . $puntosO . " puntos\n";
-                    echo "****************************************************************************\n";
-                } elseif ($puntosX < $puntosO) {
-                    echo "****************************************************************************\n";
-                    echo "Juego TATETI: " . $indiceJuego . " (ganó O)\n";
-                    echo "Jugador O: " . strtoupper($ganadorO) . " obtuvo " . $puntosO . " puntos\n";
-                    echo "Jugador X: " . strtoupper($ganadorX) . " obtuvo " . $puntosX . " puntos\n";
-                    echo "****************************************************************************\n";
-                }
-            }
+            mostrarJuego($juegosCargados, $indiceJuego);
             break;
         case 4:
             // Muestra el porcentaje de juegos ganados según el símbolo elegido
@@ -488,7 +474,7 @@ do {
                 $jugador = strtoupper(trim(fgets(STDIN)));
                 // Si el $nombreJugador coincide con algún nombre dentro del arreglo, entonces almacena dicho jugador.
                 $resumenJugador = resumenJugador($juegosCargados, $jugador);
-                if ($resumenJugador["nombreJugador"] != "inexistente") {
+                if(verificacion($juegosCargados, $jugador)){
                     echo "****************************************************************************\n";
                     echo "Jugador: " . $resumenJugador["nombreJugador"] . "\n";
                     echo "Ganó: " . $resumenJugador["juegosGanados"] . " juegos\n";
@@ -497,7 +483,7 @@ do {
                     echo "Total de puntos acumulados: " . $resumenJugador["puntosTotales"] . " puntos\n";
                     echo "****************************************************************************\n";
                     $respuesta = "NO";
-                } else {
+                }else {
                     echo "El jugador ingresado no existe." . "\n" .  "¿Desea intentar nuevamente? (SI/NO): ";
                     $respuesta = strtoupper(trim(fgets(STDIN)));
                 }
